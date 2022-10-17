@@ -1,6 +1,6 @@
 {
   "name": "core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "> TODO: description",
   "author": "chenchunfeng09 <1005525953@qq.com>",
   "homepage": "",
@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "utils": "^1.0.0"
+    "utils": "^1.0.2"
   },
   "bin": {
     "ccf-cli-dev": "bin/index.js"
