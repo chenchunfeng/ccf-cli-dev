@@ -22,5 +22,10 @@
   },
   "bin": {
     "ccf-cli-dev": "bin/index.js"
-  }
+  },
+  "gitHead": "e466aeba57cb07d418164b5634fcd8abdc6c9a02",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
 }
