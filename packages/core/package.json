@@ -22,5 +22,5 @@
   },
   "bin": {
     "ccf-cli-dev": "bin/index.js"
-  },
+  }
 }
