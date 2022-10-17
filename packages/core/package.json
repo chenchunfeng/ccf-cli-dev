@@ -1,5 +1,5 @@
 {
-  "name": "core",
+  "name": "@ccf-cli-dev/core",
   "version": "1.0.2",
   "description": "> TODO: description",
   "author": "chenchunfeng09 <1005525953@qq.com>",
@@ -23,7 +23,7 @@
   "bin": {
     "ccf-cli-dev": "bin/index.js"
   },
-  "gitHead": "e466aeba57cb07d418164b5634fcd8abdc6c9a02",
+  "gitHead": "59bb23a87dd0dff9caa69f9e4282264b90dce950",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
