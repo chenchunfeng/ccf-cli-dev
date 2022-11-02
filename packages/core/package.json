@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "utils": "^1.0.2"
+    "utils": "file:../utils",
+    "yargs": "^17.6.0"
   },
   "bin": {
     "ccf-cli-dev": "bin/index.js"
