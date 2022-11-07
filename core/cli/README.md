@@ -1,11 +1,11 @@
-# `utils`
+# `cli`
 
 > TODO: description
 
 ## Usage
 
 ```
-const utils = require('utils');
+const cli = require('cli');
 
 // TODO: DEMONSTRATE API
 ```

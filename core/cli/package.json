@@ -1,11 +1,14 @@
 {
-  "name": "@ccf-cli-dev/commands",
+  "name": "@ccf-cli-dev/core",
   "version": "1.0.3",
   "description": "> TODO: description",
   "author": "chenchunfeng09 <1005525953@qq.com>",
   "homepage": "https://github.com/chenchunfeng/ccf-cli-dev#readme",
   "license": "ISC",
-  "main": "lib/commnand.js",
+  "main": "",
+  "bin": {
+    "ccf-cli-dev": "bin/index.js"
+  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"
