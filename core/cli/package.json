@@ -25,5 +25,8 @@
   },
   "bugs": {
     "url": "https://github.com/chenchunfeng/ccf-cli-dev/issues"
+  },
+  "dependencies": {
+    "import-local": "^3.1.0"
   }
 }

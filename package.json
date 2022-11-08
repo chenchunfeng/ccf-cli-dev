@@ -15,8 +15,5 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org/",
     "access": "public"
-  },
-  "dependencies": {
-    "yargs": "^17.6.0"
   }
 }
