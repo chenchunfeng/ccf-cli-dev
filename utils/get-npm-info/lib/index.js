@@ -50,6 +50,8 @@ function handleVersions(baseVersion, versions) {
 }
 
 module.exports = {
-    getLastVersion
+    getLastVersion,
+    getVersions,
+    getNpmInfo 
 };
 
