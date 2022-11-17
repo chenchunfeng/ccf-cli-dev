@@ -12,10 +12,17 @@ const colors = require('colors/safe');
 const userHome = require('user-home');
 // 检查目录是否存在
 const pathExists = require('path-exists').sync;
+const commander = require('commander');
+
+
 
 const log = require('@ccf-cli-dev/log');
+const init = require('@ccf-cli-dev/init')
 const constant = require('./const');
 const pkg = require('../package.json');
+
+const program = new commander.Command();
+
 
 function cli() {
     try {
@@ -25,7 +32,8 @@ function cli() {
         checkUserHome();
         checkInputArgs();
         checkEnv();
-        checkLastVersion()
+        checkLastVersion();
+        registerCommand();
     } catch (error) {
         log.error(error.message);
     }
@@ -76,7 +84,7 @@ let args;
 function checkInputArgs() {
     const minimist = require('minimist');
     args = minimist(process.argv.slice(2));
-    checkDebugArgs();
+    // checkDebugArgs();
 }
 
 /**
@@ -119,5 +127,49 @@ function createDefaultConfig() {
     const lastVersion = await getLastVersion(currentVersion, npmName);
     if (lastVersion && semver.gt(lastVersion, pkg.version)) {
         log.warn(colors.red(`请升级版本，最新版本：${lastVersion}，升级命令：npm i ${npmName} -g`));
+    }
+}
+
+/**
+ * 注意命令
+ */
+function registerCommand() {
+    program
+        .name(Object.keys(pkg.bin)[0])   // 设置 usage 的 name
+        .usage('<command> [options]')    // 设置 usage 的 message
+        .version(pkg.version, '-v, --version')    // 设置 Version 命令 
+        .option('-d, --debug', '是否开启调试', false);    // 创建 debug 命令 ， 第三个参数：是否默认开启
+    
+    // 注册命令
+    program
+        .command('init [projectName]')
+        .description('初始化')
+        .option('-f, --force', '是否强制初始化项目')
+        .action(init);
+
+    // 开启debug监听
+    program.on('option:debug', function() {
+        process.env.LOG_LEVEL = program._optionValues.debug ? 'verbose' : 'info';
+        log.level = process.env.LOG_LEVEL;
+        // 测试开启debug
+        log.verbose('开启debug')
+    })
+
+    // 对未知命令监听
+    program.on('command:*', function(obj) {
+        const availableCommands = program.commands.map(cmd => cmd.name());
+        console.log(colors.red('未知的命令：' + obj[0]));
+        if (availableCommands.length > 0) {
+            console.log(colors.red('可用命令：' + availableCommands.join(',')));
+            program.outputHelp();
+        }
+    });
+    program.parse(process.argv);
+    
+    // 如果不输出任何命令或选项，输出帮忙文档 新版本不需要
+    if (program.args && program.args.length < 1) {
+        program.outputHelp();
+        // 输出空行
+        console.log()
     }
 }
