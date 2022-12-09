@@ -17,7 +17,9 @@ const commander = require('commander');
 
 
 const log = require('@ccf-cli-dev/log');
-const init = require('@ccf-cli-dev/init')
+// 不直接直接导入，动态加载int包
+// const init = require('@ccf-cli-dev/init');
+const exec = require('@ccf-cli-dev/exec');
 const constant = require('./const');
 const pkg = require('../package.json');
 
@@ -120,32 +122,32 @@ function createDefaultConfig() {
  * 通过对比https://registry.npmjs.org/模块名，返回
  */
  async function checkLastVersion() {
-    const { getLastVersion } = require('@ccf-cli-dev/get-npm-info');
+    const { getNpmSemverVersion } = require('@ccf-cli-dev/get-npm-info');
     const currentVersion = pkg.version;
     const npmName = pkg.name;
 
-    const lastVersion = await getLastVersion(currentVersion, npmName);
+    const lastVersion = await getNpmSemverVersion(currentVersion, npmName);
     if (lastVersion && semver.gt(lastVersion, pkg.version)) {
         log.warn(colors.red(`请升级版本，最新版本：${lastVersion}，升级命令：npm i ${npmName} -g`));
     }
 }
 
 /**
- * 注意命令
+ * 注册命令
  */
 function registerCommand() {
     program
         .name(Object.keys(pkg.bin)[0])   // 设置 usage 的 name
         .usage('<command> [options]')    // 设置 usage 的 message
         .version(pkg.version, '-v, --version')    // 设置 Version 命令 
-        .option('-d, --debug', '是否开启调试', false);    // 创建 debug 命令 ， 第三个参数：是否默认开启
-    
+        .option('-d, --debug', '是否开启调试', false)   // 创建 debug 命令 ， 第三个参数：是否默认开启
+        .option('-tp, --targetPath <targetPath>', '是否指定本地调试文件路径', '');
     // 注册命令
     program
         .command('init [projectName]')
         .description('初始化')
         .option('-f, --force', '是否强制初始化项目')
-        .action(init);
+        .action(exec);
 
     // 开启debug监听
     program.on('option:debug', function() {
@@ -153,6 +155,11 @@ function registerCommand() {
         log.level = process.env.LOG_LEVEL;
         // 测试开启debug
         log.verbose('开启debug')
+    })
+
+    // 开启targetPath监听
+    program.on('option:targetPath', function() {
+        process.env.CLI_TARGET_PATH = program._optionValues.targetPath;
     })
 
     // 对未知命令监听

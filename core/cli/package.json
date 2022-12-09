@@ -27,6 +27,7 @@
     "url": "https://github.com/chenchunfeng/ccf-cli-dev/issues"
   },
   "dependencies": {
+    "@ccf-cli-dev/exec": "file:..\\exec",
     "@ccf-cli-dev/get-npm-info": "file:..\\..\\utils\\get-npm-info",
     "@ccf-cli-dev/init": "file:..\\..\\commands\\init",
     "@ccf-cli-dev/log": "file:..\\..\\utils\\log",

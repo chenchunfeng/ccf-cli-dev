@@ -7,13 +7,21 @@ const urlJoin = require('url-join');
 
 
 
-async function getLastVersion(baseVersion, npmName, registry) {
-    const versions = await getVersions(npmName, registry);
+async function getNpmSemverVersion(baseVersion, npmName, registry) {
+    const versions = await getNpmVersions(npmName, registry);
     const lastVersion = handleVersions(baseVersion, versions);
     return lastVersion;
 }
 
-async function getVersions(npmName, registry) {
+async function getNpmLatestVersion(npmName, registry) {
+    const versions = await getNpmVersions(npmName, registry);
+    if (versions) {
+        return versions.sort((a, b) => semver.gt(b, a))[0];
+      }
+      return null;
+}
+
+async function getNpmVersions(npmName, registry) {
     const data = await getNpmInfo(npmName, registry);
     return data.versions ? Object.keys(data.versions) : [];
 }
@@ -28,13 +36,13 @@ function getNpmInfo(npmName, registry) {
     })
 }
 
-function getUrl(sourceType = 'tao', npmName) {
-    const typeMap = {
-        'npm': 'https://registry.npmjs.org/',
-        'tao': 'https://registry.npmmirror.com/'
-    }
-    return urlJoin(typeMap[sourceType], npmName)
+function getUrl(isOriginal = false, npmName) {
+    return urlJoin(getDefaultRegistry(isOriginal), npmName)
 }
+
+function getDefaultRegistry(isOriginal = false) {
+    return isOriginal ? 'https://registry.npmjs.org' : 'https://registry.npm.taobao.org';
+  }
 
 /**
  * 
@@ -49,9 +57,11 @@ function handleVersions(baseVersion, versions) {
     return list[0]
 }
 
-module.exports = {
-    getLastVersion,
-    getVersions,
-    getNpmInfo 
+module.exports = {    
+    getNpmInfo,
+    getNpmVersions,
+    getNpmSemverVersion,
+    getDefaultRegistry,
+    getNpmLatestVersion,
 };
 

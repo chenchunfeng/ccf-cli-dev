@@ -1,0 +1,34 @@
+'use strict';
+
+module.exports = {
+    isObject,
+    formatPath,
+    exec
+};
+
+function isObject(obj) {
+    return Object.prototype.toString.call(obj) === '[object Object]';
+}
+
+
+const path = require('path');
+function formatPath(p) {
+    if (p && typeof p === 'string') {
+        // 当时系统分割符
+        const sep = path.sep;
+        if (sep === '/') {
+            return p;
+        } else {
+            return p.replace(/\\/g, '/');
+        }
+    } 
+}
+
+function exec(command, args, options) {
+    const win32 = process.platform === 'win32';
+
+    const cmd = win32 ? 'cmd' : command;
+    const cmdArgs = win32 ? ['/c'].concat(command, args) : args;
+
+    return require('child_process').spawn(cmd, cmdArgs, options || {});
+}
