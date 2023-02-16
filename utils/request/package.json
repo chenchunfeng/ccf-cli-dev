@@ -1,5 +1,5 @@
 {
-  "name": "@ccf-cli-dev/init",
+  "name": "@ccf-cli-dev/request",
   "version": "1.0.6",
   "description": "> TODO: description",
   "author": "chenchunfeng09 <1005525953@qq.com>",
@@ -27,11 +27,7 @@
     "url": "https://github.com/chenchunfeng/ccf-cli-dev/issues"
   },
   "dependencies": {
-    "@ccf-cli-dev/command": "file:..\\..\\models\\command",
-    "@ccf-cli-dev/log": "file:..\\..\\utils\\log",
-    "@ccf-cli-dev/request": "file:..\\..\\utils\\request",
-    "fs-extra": "^11.1.0",
-    "inquirer": "^8.2.5",
-    "semver": "^7.3.8"
+    "@ccf-cli-dev/log": "file:..\\log",
+    "axios": "^0.21.1"
   }
 }

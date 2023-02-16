@@ -52,14 +52,14 @@ function checkPackageVersion() {
  * 判断当前node版本是大于等于minVersion
  */
 function checkNodeVersion() {
-  // 获取当前 node 版本号
-  const currentVersion = process.version;
-  // 获取最低 node 版本号
-  const lowestVersion = constant.LOWEST_NODE_VERSION;
-  // 对比最低 node 版本号
-  if (!semver.gte(currentVersion, lowestVersion)) {
-    throw new Error(colors.red(`当前 node 版本：${currentVersion}，最低 node 版本：${lowestVersion}，请升级 node`));
-  }
+    // 获取当前 node 版本号
+    const currentVersion = process.version;
+    // 获取最低 node 版本号
+    const lowestVersion = constant.LOWEST_NODE_VERSION;
+    // 对比最低 node 版本号
+    if (!semver.gte(currentVersion, lowestVersion)) {
+        throw new Error(colors.red(`当前 node 版本：${currentVersion}，最低 node 版本：${lowestVersion}，请升级 node`));
+    }
 }
 
 /**
@@ -76,9 +76,9 @@ function checkRoot() {
 function checkUserHome() {
     // 如果主目录不存在,抛出异常
     if (!userHome || !pathExists(userHome)) {
-      throw new Error(colors.red('当前登录用户主目录不存在'));
+        throw new Error(colors.red('当前登录用户主目录不存在'));
     }
-  }
+}
 /**
  * 格式化入参，并判断是否开启debug
  */
@@ -121,7 +121,7 @@ function createDefaultConfig() {
 /**
  * 通过对比https://registry.npmjs.org/模块名，返回
  */
- async function checkLastVersion() {
+async function checkLastVersion() {
     const { getNpmSemverVersion } = require('@ccf-cli-dev/get-npm-info');
     const currentVersion = pkg.version;
     const npmName = pkg.name;
@@ -145,12 +145,12 @@ function registerCommand() {
     // 注册命令
     program
         .command('init [projectName]')
-        .description('初始化')
+        .description('初始化项目')
         .option('-f, --force', '是否强制初始化项目')
         .action(exec);
 
     // 开启debug监听
-    program.on('option:debug', function() {
+    program.on('option:debug', function () {
         process.env.LOG_LEVEL = program._optionValues.debug ? 'verbose' : 'info';
         log.level = process.env.LOG_LEVEL;
         // 测试开启debug
@@ -158,12 +158,12 @@ function registerCommand() {
     })
 
     // 开启targetPath监听
-    program.on('option:targetPath', function() {
+    program.on('option:targetPath', function () {
         process.env.CLI_TARGET_PATH = program._optionValues.targetPath;
     })
 
     // 对未知命令监听
-    program.on('command:*', function(obj) {
+    program.on('command:*', function (obj) {
         const availableCommands = program.commands.map(cmd => cmd.name());
         console.log(colors.red('未知的命令：' + obj[0]));
         if (availableCommands.length > 0) {
@@ -172,11 +172,11 @@ function registerCommand() {
         }
     });
     program.parse(process.argv);
-    
+
     // 如果不输出任何命令或选项，输出帮忙文档 新版本不需要
     if (program.args && program.args.length < 1) {
         program.outputHelp();
         // 输出空行
-        console.log()
+        console.log();
     }
 }
